@@ -1,0 +1,86 @@
+@font-face {
+    src: url("/assets/fonts/Gnaw FREE.ttf");
+    font-family: coin;
+}
+
+body{
+    background-image: url(/assets/pictures/tile.jpg);
+    
+}
+
+h1{
+    font-family: ZingEasy;
+    color: black;
+    text-align: center;
+    font-weight: normal;
+    font-size: 70px;
+}
+
+#formDiv{
+    background-image: url(/assets/pictures/formbg.jpg);
+    background-size: contain;
+    width: 700px;
+    height: 190px;
+    margin: auto;
+}
+
+form{
+    padding-top: 20px;
+    margin-left: 100px;
+    line-height: 33px;
+    font-size: large;
+}
+
+input{
+
+    border-style: none;
+    background:none !important;
+}
+
+label{
+    font-weight: normal;
+}
+
+
+#containerDiv > div {
+    float: left;
+    width: 183px;
+    height: 250px;
+    padding: 10px;
+    margin: 10px;
+    background-image: url(/assets/pictures/notebg.png);
+    animation: FadeIn 3s;
+}
+
+
+div p:nth-child(2){
+    margin-top: 30px;
+    width: 160px;
+    height: 145px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+div p:nth-child(3){
+    font-size: medium;
+    font-weight: bold;
+}
+
+.icon{
+    float: right;
+    margin-top: 10px;
+    visibility: hidden;
+    font-size: large;
+}
+
+
+
+@keyframes FadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
