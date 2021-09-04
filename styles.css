@@ -35,6 +35,12 @@ input{
 
     border-style: none;
     background:none !important;
+    margin-bottom: 5px;
+}
+
+
+input:focus{
+    outline: none;
 }
 
 label{
@@ -73,6 +79,9 @@ div p:nth-child(3){
     font-size: large;
 }
 
+button{
+    margin-top: -10px;
+}
 
 
 @keyframes FadeIn {

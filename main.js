@@ -5,28 +5,28 @@
 $(function () {
 
 
-    //טיפול באירועים
+    //events
 
-    //לחיצה על כפתור ליצירת פתקית
+    //Clicking a button for creating a note
     document.getElementById("submitButton").addEventListener("click", saveTask);
 
-    //לחיצה על כפתור לאיפוס הטופס
+    // Click on a button for resetting the form
     document.getElementById("resetButton").addEventListener("click", resetForm);
 
 
-    //כאשר העכבר מרחף מעל פתקית
+    // When the mouse hovers over a note
     $("#containerDiv").on("mouseover", "div", function () {
         enableIcon($(this).children()[0].id);
     });
 
 
-    //כאשר העכבר מפסיק לרחף מעל פתקית
+    // When the mouse stops hover over a note
     $("#containerDiv").on("mouseout", "div", function () {
         disableIcon($(this).children()[0].id);
     });
 
 
-    //בעת לחיצה על מחיקת פתקית
+    // When the mouse click on a note
     $("#containerDiv").on("click", "span", function () {
         let index = this.id;
         index = index.slice(4, index.length);
@@ -34,54 +34,45 @@ $(function () {
     });
 
 
-
-
-
-    //יצירת מערך הפתקיות
+    //Tasks array
     let allTasks = [];
 
-    //הצגת כל הפתקיות במידה ויש
+    //View all notes
     loadAllTasks();
-
-
-
 
 
     function loadAllTasks() {
         if (localStorage.getItem("tasks") != null) {
 
-            //Local storage-טעינה אל המערך מה
+            //Get tasks from the Local storage
             allTasks = JSON.parse(localStorage.getItem("tasks"));
 
-            //לפורמט רגיל jason  מחזיר את הפורמט של התאריך מפורמט 
+            //Convert json to date format
             allTasks.forEach(taskInfo => {
                 const date = new Date(taskInfo.date);
                 taskInfo.date = date;
             });
 
-            //מוחק מהמערך פתקיות לא תקפות
+            //Deletes invalid notes from the array
             const currentDate = new Date();
             allTasks = allTasks.filter(taskInfo => taskInfo.date > currentDate);
 
-            //Local Storage-עדכון ה
+            //save the updated array to Local Storage
             localStorage.setItem("tasks", JSON.stringify(allTasks));
 
+            //View all notes
             displayTasks();
         }
     }
 
 
-
-
-
-
-    //הצגת הפתקיות
+    //View all notes
     function displayTasks() {
 
 
         const containerDiv = document.getElementById("containerDiv");
 
-        containerDiv.innerHTML = ""; // ניקוי ממידע קודם
+        containerDiv.innerHTML = "";
 
         let index = 0;
         for (var taskInfo of allTasks) {
@@ -105,10 +96,7 @@ $(function () {
     }
 
 
-
-
-
-    //Local storage-הוספת פתקית חדשה אל המערך ושמירה ב
+    //add a new note and save the array to Local storage
     function saveTask() {
 
         const taskBox = document.getElementById("missionDetailes");
@@ -116,54 +104,53 @@ $(function () {
         const timeBox = document.getElementById("finalTime");
 
 
-
-        console.log(timeBox.value);
-
-        //הערכים שהמשתמש הכניס
+        //get details on task from user
         const stringTask = taskBox.value;
         let stringDate = dateBox.value;
         const stringTime = timeBox.value;
 
-        //ולידציה של מילוי פרטי המשימה ותאריך
+        //Error checking
         if (stringTask === "") {
             alert("Enter the mission details");
-            //event.preventDefault();
             return;
         }
 
         if (stringDate === "") {
             alert("Enter a valid date");
-            //event.preventDefault();
             return;
         }
 
-        //יוצר אובייקט של תאריך
+        //create date format
         const date = new Date(`${stringDate} ${stringTime}`);
+        const dateNow=new Date();
 
-        //יצירת אובייקט של משימה
+        //create object for note
         const taskInfo = {
             task: stringTask,
             date: date
         };
 
-        //Local Storage-הכנסת האובייקט אל המערך ושמירה ב
-        allTasks.push(taskInfo);
-        localStorage.setItem("tasks", JSON.stringify(allTasks));
+        //Add note to array and Local Storage
+        if(taskInfo.date<dateNow){
+            alert("date and time are not valid");
+        }
 
-        //איפוס הטופס
+        else{
+            allTasks.push(taskInfo);
+            localStorage.setItem("tasks", JSON.stringify(allTasks));
+        }
+        
+
+        //Resetting the form
         resetForm();
 
-        //הצגת הפתקיות כולל הפתקית החדשה שנוספה
+        //View all notes
         displayTasks();
     }
 
 
 
-
-
-
-
-    //מחזיר מחרוזת של תאריך מאובייקט של תאריך
+    //Return string of date from date format
     function getDateToString(date) {
 
         let stringDate = date.toLocaleDateString();
@@ -173,10 +160,8 @@ $(function () {
     }
 
 
-
-    //מחזיר מחרוזת של שעה מאובייקט של תאריך
+    //Return string of time from date format
     function getTimeToString(date) {
-
         const str = date.toLocaleTimeString();
         const array = str.split(":").map(str => str.length === 1 ? `0${str}` : str);
         const stringTime = `${array[0]}:${array[1]}`;
@@ -184,48 +169,40 @@ $(function () {
     }
 
 
-
-    //מחיקת פתקית
-    //מקבל אינדקס למחיקה מהמערך
+    //Delete a note
+    //get index of note for deleting
     function removeTask(index) {
 
         const result = confirm("Are you sure?");
         if (result) {
-            allTasks.splice(index, 1); // מחיקת פריט הקיים באינדקס הזה
+            allTasks.splice(index, 1);
             localStorage.setItem("tasks", JSON.stringify(allTasks));
             displayTasks();
         }
-
     }
 
 
-    //איפוס הטופס
+    //resetting the form
     function resetForm() {
         document.getElementById("formID").reset();
-
     }
 
 
 
-    //הצגת אייקון למחיקת פתקית
+    //enable delete icon
     function enableIcon(id) {
-
         const icon = document.getElementById(id);
         icon.style.visibility = "visible";
     }
 
 
 
-    //הסתרת האייקון למחיקת פתקית
+    //disable delete icon
     function disableIcon(id) {
-
         const icon = document.getElementById(id);
         icon.style.visibility = "hidden";
     }
-
-}
-
-);
+});
 
 
 
