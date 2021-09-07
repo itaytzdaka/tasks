@@ -43,6 +43,7 @@ input:focus{
     outline: none;
 }
 
+
 label{
     font-weight: normal;
 }
@@ -55,7 +56,11 @@ label{
     padding: 10px;
     margin: 10px;
     background-image: url(/assets/pictures/notebg.png);
-    animation: FadeIn 3s;
+    animation: FadeIn 3s ease-out;
+    -webkit-transition: opacity 1000ms linear;
+    transition: opacity 1000ms linear;
+
+
 }
 
 
@@ -90,6 +95,15 @@ button{
     }
     to {
         opacity: 1;
+    }
+}
+
+@keyframes FadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
     }
 }
 

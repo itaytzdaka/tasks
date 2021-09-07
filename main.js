@@ -8,7 +8,7 @@ $(function () {
     //events
 
     //Clicking a button for creating a note
-    document.getElementById("submitButton").addEventListener("click", saveTask);
+    document.getElementById("submitButton").addEventListener("click", addTask);
 
     // Click on a button for resetting the form
     document.getElementById("resetButton").addEventListener("click", resetForm);
@@ -97,7 +97,7 @@ $(function () {
 
 
     //add a new note and save the array to Local storage
-    function saveTask() {
+    function addTask() {
 
         const taskBox = document.getElementById("missionDetailes");
         const dateBox = document.getElementById("finalDate");
@@ -121,8 +121,8 @@ $(function () {
         }
 
         //create date format
-        const date = new Date(`${stringDate} ${stringTime}`);
-        const dateNow=new Date();
+        let date = new Date(`${stringDate} ${stringTime}`);
+        const dateNow = new Date();
 
         //create object for note
         const taskInfo = {
@@ -130,22 +130,39 @@ $(function () {
             date: date
         };
 
+
+
+
+        // const containerDiv = document.getElementById("containerDiv");
+
+        date = getDateToString(taskInfo.date);
+        const time = getTimeToString(taskInfo.date);
+
+        // const newTask = document.createTextNode();
+
+
+        var temp = document.createElement('div'); // create a temporary dom element
+        temp.innerHTML = `<div id="t${allTasks.length - 1}">
+        <span class="glyphicon glyphicon-remove-sign icon" aria-hidden="true" id="icon${allTasks.length - 1}"></span>
+        <p>${taskInfo.task}</p>
+        <p>${date}<br>${time}</p>
+       `;
+
+        const childArray = temp.childNodes; // grab the resulting child elements
+
         //Add note to array and Local Storage
-        if(taskInfo.date<dateNow){
+        if (taskInfo.date < dateNow) {
             alert("date and time are not valid");
         }
 
-        else{
+        else {
             allTasks.push(taskInfo);
             localStorage.setItem("tasks", JSON.stringify(allTasks));
+            document.getElementById('containerDiv').appendChild(childArray[0]);
         }
-        
 
-        //Resetting the form
         resetForm();
 
-        //View all notes
-        displayTasks();
     }
 
 
@@ -177,7 +194,16 @@ $(function () {
         if (result) {
             allTasks.splice(index, 1);
             localStorage.setItem("tasks", JSON.stringify(allTasks));
-            displayTasks();
+            // displayTasks();
+            const taskToRemove = document.getElementById('t' + index);
+            // taskToRemove.remove();
+
+            document.getElementById('t' + index).style.opacity = '0';
+            setTimeout(function () { taskToRemove.remove(); }, 1000);
+
+            // document.getElementById('t' + index).style.display = "none";
+            // const containerDiv = document.getElementById("containerDiv");
+            // console.log(containerDiv.innerHTML);
         }
     }
 
