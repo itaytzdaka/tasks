@@ -199,7 +199,7 @@ $(function () {
             // taskToRemove.remove();
 
             document.getElementById('t' + index).style.opacity = '0';
-            setTimeout(function () { taskToRemove.remove(); }, 1000);
+            setTimeout(function () { taskToRemove.remove(); }, 500);
 
             // document.getElementById('t' + index).style.display = "none";
             // const containerDiv = document.getElementById("containerDiv");
