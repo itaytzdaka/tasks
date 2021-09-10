@@ -48,6 +48,10 @@ label{
     font-weight: normal;
 }
 
+#containerDiv{
+    display: flex;
+    flex-wrap: wrap;
+}
 
 #containerDiv > div {
     float: left;
@@ -232,7 +236,7 @@ button{
 
     #containerDiv > div {
         float: left;
-        width: 110px;
+        width: 100px;
         height: 160px;
         padding: 8px;
         margin: 10px;
